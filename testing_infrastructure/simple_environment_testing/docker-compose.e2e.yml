@@ -1,0 +1,7 @@
+services:
+  e2e:
+    image: experimental-service-e2e:latest
+    entrypoint: 'sh -c "trap : TERM INT; sleep 604800; wait"'
+    volumes:
+      - ./tests/e2e:/e2e
+    working_dir: /e2e

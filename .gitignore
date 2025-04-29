@@ -13,3 +13,4 @@ env/
 
 # Log files
 *.log
+**/.vedro/**

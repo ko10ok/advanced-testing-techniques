@@ -1,0 +1,4 @@
+services:
+  kafka:
+    image: busybox:1.35
+    entrypoint: 'sh -c "exit 0"'

@@ -1,0 +1,110 @@
+services:
+  app:
+    image: experimental-service:${IMAGE_VERSION}
+    ports:
+      - "8080"
+    environment:
+      - DB_DSN=postgresql://app_user:app_password@db:5432/app_db?sslmode=disable
+    depends_on:
+      db:
+        condition: service_healthy
+      migrations:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/healthcheck"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    
+  migrations:
+    image: experimental-service-migrations:latest
+    entrypoint: 'sh -c "trap : TERM INT; sleep 604800; wait"'
+    environment:
+      - DB_DSN=postgresql://app_user:app_password@db:5432/app_db?sslmode=disable
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:11.2-alpine
+    environment:
+      - TZ=Asia/Novosibirsk
+      - POSTGRES_USER=app_user
+      - POSTGRES_PASSWORD=app_password
+      - POSTGRES_DB=app_db
+    ports:
+      - "5432"
+    healthcheck:
+      test: "pg_isready -U app_db"
+      interval: 10s
+      timeout: 5s
+      retries: 100
+
+
+# Bootstrap
+  maxwelld:
+    image: docker-hub.2gis.ru/docker-io/ko10ok/maxwelld:2.1.2
+    volumes:
+      - ${HOST_PWD}/.:/project
+    environment:
+      - DOCKER_HOST=tcp://dockersock:2375
+      - COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME}
+      - NON_STOP_CONTAINERS=dockersock,maxwelld,e2e
+      - HOST_PROJECT_ROOT_DIRECTORY=${HOST_PROJECT_ROOT_DIRECTORY}
+      - IMAGE_VERSION=${IMAGE_VERSION}
+      - E2E_BASE_IMAGE_VERSION=${E2E_BASE_IMAGE_VERSION}
+    depends_on:
+      dockersock:
+        condition: service_healthy
+    healthcheck:
+      test: "curl -s --fail http://localhost/v0/healthcheck || exit 1"
+      interval: 5s
+      timeout: 10s
+      retries: 100
+    build:
+      context: /Users/yu.sagitov/apps/maxwelld
+      dockerfile: docker/Dockerfile
+    develop:
+      watch:
+        - action: rebuild
+          path: /Users/yu.sagitov/apps/maxwelld/maxwelld
+          target: /maxwelld
+
+  dockersock:
+    image: docker-hub.2gis.ru/ugc/dockersock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    healthcheck:
+      test: "wget -q -O - http://localhost:2375/v1.40/version || exit 1"
+      interval: 5s
+      timeout: 10s
+      retries: 100
+
+
+### e2e тесты
+  e2e:
+    image: experimental-service-e2e:${E2E_BASE_IMAGE_VERSION}
+    entrypoint: 'sh -c "trap : TERM INT; sleep 604800; wait"'
+    volumes:
+      - ${HOST_PWD}/tests/e2e:/e2e
+    working_dir: /e2e
+
+
+### meta bootstrap?
+  all:
+    environment:
+      - HOST_PROJECT_ROOT_DIRECTORY=${HOST_PROJECT_ROOT_DIRECTORY}
+      - COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME}
+      - PWD=${PWD}
+      - HOST_PWD=${PWD}
+    image: docker-hub.2gis.ru/docker-io/ko10ok/maxwelld:2.1.2
+    working_dir: /project
+    volumes:
+      - .:/project
+      - /var/run/docker.sock:/var/run/docker.sock
+    entrypoint: [ '/bin/sh', '-c' ]
+    command: |
+      "
+      IMAGE_VERSION=latest E2E_BASE_IMAGE_VERSION=latest docker-compose up -d dockersock maxwelld e2e | exit 0
+      "

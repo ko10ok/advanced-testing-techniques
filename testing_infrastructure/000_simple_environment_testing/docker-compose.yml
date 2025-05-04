@@ -8,6 +8,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      migrations:
+        condition: service_started
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/healthcheck"]
       interval: 10s
@@ -63,10 +65,3 @@ services:
       interval: 20s
       timeout: 10s
       retries: 6
-    x-migration:
-      - after_start: 'kafka-topics.sh --bootstrap-server kafka:9092 --list'
-      - after_start: 'kafka-topics.sh --bootstrap-server kafka:9092 --create --if-not-exists --topic objects_topic --replication-factor 1 --partitions 1'
-      - after_start: 'kafka-topics.sh --bootstrap-server kafka:9092 --create --if-not-exists --topic views --replication-factor 1 --partitions 5'
-      - after_start: 'kafka-topics.sh --bootstrap-server kafka:9092 --create --if-not-exists --topic allevents --replication-factor 1 --partitions 1'
-      - after_start: 'kafka-topics.sh --bootstrap-server kafka:9092 --create --if-not-exists --topic externalphotos --replication-factor 1 --partitions 1'
-      - after_start: 'kafka-topics.sh --bootstrap-server kafka:9092 --create --if-not-exists --topic test --replication-factor 1 --partitions 1'

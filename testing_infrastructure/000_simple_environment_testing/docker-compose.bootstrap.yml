@@ -8,9 +8,6 @@ services:
       - COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME}
       - NON_STOP_CONTAINERS=dockersock,maxwelld,e2e
       - HOST_PROJECT_ROOT_DIRECTORY=${HOST_PROJECT_ROOT_DIRECTORY}
-      # и остальные используемые в docker-compose.yml переменные, например:
-      # - IMAGE_VERSION=${IMAGE_VERSION}
-      # - COUNT_CPU=${COUNT_CPU}
     depends_on:
       dockersock:
         condition: service_healthy

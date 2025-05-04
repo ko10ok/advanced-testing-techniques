@@ -1,4 +1,6 @@
-# Bootstrap и запуск окружения
+# Разные параметры окружения для разных тестов
+
+## Запуск
 
 ```shell
 export COMPOSE_FILE=docker-compose.bootstrap.yml:docker-compose.e2e.yml:docker-compose.yml

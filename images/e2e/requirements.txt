@@ -41,7 +41,7 @@ idna==3.10
     #   yarl
 markdown-it-py==3.0.0
     # via rich
-maxwelld==2.1.2
+maxwelld==2.1.4
     # via -r e2e/requirements.in
 mdurl==0.1.2
     # via markdown-it-py

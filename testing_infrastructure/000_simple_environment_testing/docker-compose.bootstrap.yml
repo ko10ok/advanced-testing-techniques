@@ -1,6 +1,6 @@
 services:
   maxwelld:
-    image: docker-hub.2gis.ru/docker-io/ko10ok/maxwelld:2.1.2
+    image: docker-hub.2gis.ru/docker-io/ko10ok/maxwelld:2.1.4
     volumes:
       - .:/project
     environment:

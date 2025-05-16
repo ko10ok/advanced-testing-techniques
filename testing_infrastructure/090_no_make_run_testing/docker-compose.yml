@@ -44,7 +44,7 @@ services:
 
 # Bootstrap
   maxwelld:
-    image: docker-hub.2gis.ru/docker-io/ko10ok/maxwelld:2.1.2
+    image: docker-hub.2gis.ru/docker-io/ko10ok/maxwelld:2.1.4
     volumes:
       - ${HOST_PWD}/.:/project
     environment:
@@ -98,7 +98,7 @@ services:
       - COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME}
       - PWD=${PWD}
       - HOST_PWD=${PWD}
-    image: docker-hub.2gis.ru/docker-io/ko10ok/maxwelld:2.1.2
+    image: docker-hub.2gis.ru/docker-io/ko10ok/maxwelld:2.1.4
     working_dir: /project
     volumes:
       - .:/project

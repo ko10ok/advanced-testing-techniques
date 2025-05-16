@@ -65,3 +65,5 @@ services:
       interval: 20s
       timeout: 10s
       retries: 6
+    x-migration:
+      - after_healthy: 'kafka-topics.sh --bootstrap-server kafka:9092 --create --if-not-exists --topic test --replication-factor 1 --partitions 1'

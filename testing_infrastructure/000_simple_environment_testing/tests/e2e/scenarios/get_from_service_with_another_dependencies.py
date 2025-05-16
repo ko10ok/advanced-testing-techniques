@@ -15,5 +15,7 @@ class Scenario(vedro.Scenario):
     )
 
     async def step(self):
-        self.app_environment = httpx.get('http://app:8080/env').json()
-        assert self.app_environment['FEATURE_ENABLE'] == 'true'
+        self.app_environment = httpx.get('http://dockersock:2375/v1.40/containers/json').json()
+        for container in self.app_environment:
+            if container['Image'] == 'bitnami/kafka:3.2.3':
+                assert container['State'] == 'running'

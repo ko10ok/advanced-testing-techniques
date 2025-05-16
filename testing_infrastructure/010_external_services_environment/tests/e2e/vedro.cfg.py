@@ -15,7 +15,7 @@ class Config(vedro.Config):
             compose_cfgs = {
                 DEFAULT_COMPOSE: ComposeConfig(
                     'docker-compose.yml', parallel_env_limit=1,
-                    external=[kafka_ext, postgres_db_ext]
+                    services_override=[kafka_ext, postgres_db_ext]
                 )
             }
             maxwell_demon_client = MaxwellDemonClient(host="http://maxwelld")

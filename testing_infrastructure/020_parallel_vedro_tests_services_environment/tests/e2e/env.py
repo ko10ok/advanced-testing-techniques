@@ -10,8 +10,8 @@ class SingletonService(Service):
 
 app = Service('app')
 migrations = Service('migrations')
-postgres_db = SingletonService('postgres_db')
-kafka = SingletonService('kafka')
+postgres_db = SingletonService('postgres_db')  # SingletonService обозначает что будет поднят единственный инстанс
+kafka = SingletonService('kafka')              # на все потоки параллельно запущенных тестов
 
 EnvEnabledFeatureEnvironment = Environment(
     'EnvEnabledFeatureName', # будет не нужно после автоматического определения подходящих параметров и набора сервисов

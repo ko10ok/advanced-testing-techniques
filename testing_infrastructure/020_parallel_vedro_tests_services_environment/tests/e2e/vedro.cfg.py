@@ -14,7 +14,7 @@ class Config(vedro.Config):
                     'docker-compose.yml',
                     # не указан parallel_env_limit=1 - потоков
                     # может быть много - по умолчанию по количеству разных окружений
-                    external=[kafka_ext, postgres_db_ext]
+                    services_override=[kafka_ext, postgres_db_ext]
                 )
             }
             maxwell_demon_client = MaxwellDemonClient(host="http://maxwelld")

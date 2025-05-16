@@ -62,14 +62,6 @@ services:
       interval: 5s
       timeout: 10s
       retries: 100
-    build:
-      context: /Users/yu.sagitov/apps/maxwelld
-      dockerfile: docker/Dockerfile
-    develop:
-      watch:
-        - action: rebuild
-          path: /Users/yu.sagitov/apps/maxwelld/maxwelld
-          target: /maxwelld
 
   dockersock:
     image: docker-hub.2gis.ru/ugc/dockersock

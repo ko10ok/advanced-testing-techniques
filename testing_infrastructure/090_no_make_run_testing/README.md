@@ -11,5 +11,5 @@ dc run --rm all
 ```
 
 ```shell
-docker-compose exec e2e python3 -m vedro run
+docker-compose exec -it e2e python3 -m vedro run --uc-v
 ```

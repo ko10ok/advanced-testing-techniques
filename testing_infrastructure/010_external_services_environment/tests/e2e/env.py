@@ -1,5 +1,5 @@
-from maxwelld import Environment
-from maxwelld import Service
+from uber_compose import Environment
+from uber_compose import Service
 
 
 app = Service('app')

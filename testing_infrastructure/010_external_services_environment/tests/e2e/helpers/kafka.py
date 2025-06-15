@@ -1,5 +1,5 @@
 from env import kafka
-from maxwelld import worker_instance
+from uber_compose import worker_instance
 from d42 import fake
 from schemas import TopicName
 from kafka import KafkaApi

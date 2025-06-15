@@ -1,15 +1,13 @@
 import vedro
-from maxwelld import ComposeConfig
-from maxwelld import DEFAULT_COMPOSE
-from maxwelld import MaxwellDemonClient
-from maxwelld import VedroMaxwell
+from uber_compose import ComposeConfig
+from uber_compose import DEFAULT_COMPOSE
+from uber_compose import VedroUberCompose
 
 
 class Config(vedro.Config):
     class Plugins(vedro.Config.Plugins):
-        class VedroMaxwell(VedroMaxwell):
+        class VedroMaxwell(VedroUberCompose):
             enabled = True
             compose_cfgs = {
-                DEFAULT_COMPOSE: ComposeConfig('docker-compose.yml', parallel_env_limit=1)
+                DEFAULT_COMPOSE: ComposeConfig('docker-compose.yml')
             }
-            maxwell_demon_client = MaxwellDemonClient(host="http://maxwelld")

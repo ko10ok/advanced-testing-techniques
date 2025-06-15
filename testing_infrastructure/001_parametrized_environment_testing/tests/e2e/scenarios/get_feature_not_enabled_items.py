@@ -1,8 +1,8 @@
 import httpx
 import vedro
-from maxwelld import Env
-from maxwelld import Environment
-from maxwelld import Service
+from uber_compose import Env
+from uber_compose import Environment
+from uber_compose import Service
 
 
 class Scenario(vedro.Scenario):

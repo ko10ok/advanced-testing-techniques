@@ -1,8 +1,22 @@
+version: "3.7"
 services:
+  app:
+    build:
+      context: app
+      dockerfile: app/Dockerfile
+
+  e2e:
+    build:
+      context: app
+      dockerfile: app/Dockerfile
+
   maxwelld:
-    image: docker-hub.2gis.ru/docker-io/ko10ok/maxwelld:2.1.4
+    image: ko10ok/maxwelld:3.1.0
     volumes:
       - .:/project
+      - ./docker-compose.yaml:/docker-composes/docker-compose.yml
+      - ./docker-compose.dev.yml:/docker-composes/docker-compose.dev.yml
+      - ./env-tmp${CI_JOB_ID}:/env-tmp  # expose temporal envs; CI_JOB_ID used for runner concurrent runs
     environment:
       - DOCKER_HOST=tcp://dockersock:2375
       - COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME}
@@ -11,11 +25,6 @@ services:
     depends_on:
       dockersock:
         condition: service_healthy
-    healthcheck:
-      test: "curl -s --fail http://localhost/v0/healthcheck || exit 1"
-      interval: 5s
-      timeout: 10s
-      retries: 100
 
   dockersock:
     image: docker-hub.2gis.ru/ugc/dockersock

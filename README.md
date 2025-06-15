@@ -24,7 +24,6 @@
 ### TODO: Миграции с использованием уже имеющихся make команд (?)
 
 ### TODO: [Запуск без make](testing_infrastructure%2F090_no_make_run_testing%2FREADME.md)
+### TODO: Запуск без make v2 via переопределение ENV и расcтановку портов для доступа из host?
 
-### TODO: Отладка для приложения.
-
-### TODO: Флажек для подробного поднятия.
+### [Флажки для подробного поднятия.](testing_infrastructure%2F000_simple_environment_testing%2FREADME.md)

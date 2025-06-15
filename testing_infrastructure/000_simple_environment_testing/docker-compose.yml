@@ -56,12 +56,12 @@ services:
         - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
         - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
         - KAFKA_CFG_MESSAGE_MAX_BYTES=1048588 # дефолтное значение, проблема описана тут https://github.com/bitnami/containers/issues/55274, убрать при обновлении
-        - KAFKA_HEAP_OPTS=-Xmx256m -Xms256m
+        - KAFKA_HEAP_OPTS=-Xmx512m -Xms512m
         - KAFKA_CFG_GROUP_INITIAL_REBALANCE_DELAY_MS=0
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     healthcheck:
-      test: "kafka-topics.sh --bootstrap-server kafka:9092 --list | grep test"
+      test: "kafka-topics.sh --bootstrap-server kafka:9092 --list"
       interval: 20s
       timeout: 10s
       retries: 6

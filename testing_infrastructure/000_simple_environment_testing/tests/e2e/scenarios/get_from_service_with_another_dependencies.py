@@ -1,17 +1,17 @@
 import httpx
 import vedro
-from maxwelld import Environment
-from maxwelld import Service
+from uber_compose import Environment
+from uber_compose import Service
 
 
 vedro.skip()
 class Scenario(vedro.Scenario):
     env = Environment(   # для старого ведра tags = [Env...]
-        'EnvEnabledFeatureName',  # будет не нужно после автоматического определения подходящих параметров и набора сервисов
         Service('app'),
         Service('migrations'),
         Service('kafka'),
         Service('db'),
+        description='EnvEnabledFeatureName',
     )
 
     async def step(self):

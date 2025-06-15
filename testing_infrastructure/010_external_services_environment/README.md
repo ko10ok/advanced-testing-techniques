@@ -22,13 +22,13 @@ docker-compose up -d dockersock maxwelld e2e
 ### ⏩ Запустить тесты использую переопределенные параметры сервиса
 
 ```shell
-docker-compose exec e2e python3 -m vedro run --md-services-override [ by default ALL ]
+docker-compose exec e2e python3 -m vedro run --uc-external-services [ by default ALL ]
 ```
 
 ```shell
-docker-compose exec e2e python3 -m vedro run --md-services-override=kafka
+docker-compose exec e2e python3 -m vedro run --uc-external-services=kafka
 ```
 
 ```shell
-docker-compose exec e2e python3 -m vedro run --md-services-override=kafka,postgres_db
+docker-compose exec e2e python3 -m vedro run --uc-external-services=kafka,postgres_db
 ```

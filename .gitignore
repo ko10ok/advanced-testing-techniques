@@ -1,0 +1,16 @@
+# PyCharm files and directories
+.idea
+*.iws
+*.ipr
+*.ips
+
+# Python bytecode files
+*.pyc
+
+# Virtual environment directories
+venv/
+env/
+
+# Log files
+*.log
+**/.vedro/**

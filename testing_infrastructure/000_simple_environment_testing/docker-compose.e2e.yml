@@ -1,0 +1,23 @@
+services:
+  e2e:
+    image: experimental-service-e2e:latest
+    environment:
+      - DOCKER_HOST=tcp://dockersock:2375
+      - COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME}
+      - HOST_PROJECT_ROOT_DIRECTORY=${HOST_PROJECT_ROOT_DIRECTORY}
+    entrypoint: 'sh -c "trap : TERM INT; sleep 604800; wait"'
+    volumes:
+      - .:/project
+      - ./tests/e2e:/e2e
+      - /Users/yu.sagitov/apps/uber-compose:/uber-compose
+    working_dir: /e2e
+
+  dockersock:
+    image: docker-hub.2gis.ru/ugc/dockersock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    healthcheck:
+      test: "wget -q -O - http://localhost:2375/v1.40/version || exit 1"
+      interval: 5s
+      timeout: 10s
+      retries: 100
